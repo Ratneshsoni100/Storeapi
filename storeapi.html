@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .button {
+            background-color: red;
+            width: 200px;
+            height: 50px;
+            color: gold;
+            border-radius: 50px;
+            font-size: x-large;
+            font-weight: 700;
+            margin-left: 500px;
+        }
+
+        .button:hover {
+            background-color: gold;
+            color: red;
+        }
+
+        .main {
+            /* border: 1px solid red; */
+            background-color: slategray;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-wrap: wrap;
+
+        }
+
+        section {
+            /* border: 2px solid black; */
+            height: 500px;
+            width: 400px;
+            text-align: center;
+            padding: 20px;
+            margin: 30px;
+            box-shadow: 0 0 8px 10px black;
+            background-color: rgb(196, 51, 75);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="button">SHOP NOW</button>
+    <div class="main"></div>
+    <script>
+        let btn = document.querySelector('button')
+        let box = document.querySelector('.main')
+        btn = addEventListener('click', one)
+        function one() {
+            let req = new XMLHttpRequest();
+            req.open('GET', 'https://fakestoreapi.com/products')
+            
+            req.onprogress = function () {
+                console.log('please wait a moment')   
+            }
+            req.onload = function () {
+                let data = JSON.parse(this.responseText);
+                console.log(data);
+                data.forEach(ele => {
+                    let file = `
+             <section>
+             <img height="150" width="150" src="${ele.image}" alt="">
+             <h3>${ele.description}</h3>
+             <h4>Price ${ele.price}</h4>
+             <button>BUY NOW</button>
+             </section>
+             `
+                    box.insertAdjacentHTML('beforeend', file)
+                });
+            }
+            req.send()
+        }
+    </script>
+</body>
+
+</html>
